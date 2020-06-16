@@ -3,7 +3,7 @@ import processing.sound.*;
 
 PImage bg, HandsCursor, HandsCatch, ball, sun;
 
-int state = 1;
+int state = 0;
 int globalCounter = 0;
 int drops;
 
@@ -179,20 +179,28 @@ void columnGraph() {
   
   // Data allocation
   float val = 0;
+  float real = 0;
   
   for (TableRow row : columnTable.rows()) {
-    float real = row.getFloat("Max"); // Get value from column Max to N row
+    real = row.getFloat("Max"); // Get value from column Max to N row
     val = map(real,0,20,0,200);
+    float newV = map(globalCounter,0,20,0,200);
     
-    strokeWeight(0);
-    fill(255, 34, 0); // Max Score Graph Bar
-    rect(100,-val/2,40,val); 
+    if (globalCounter > real) {  
+      strokeWeight(0);
+      fill(255, 34, 0); // Max Score Graph Bar
+      rect(100,-newV/2,40,newV);
+    } else {
+      strokeWeight(0);
+      fill(255, 34, 0); // Max Score Graph Bar
+      rect(100,-val/2,40,val);
+    } 
     
   }
-  // println("Current Highest Score: " + val); // Debug tool
+  println("Current Highest Score: " + real); // Debug tool
   
-  if (globalCounter > val) {
-    // println("New Highest Score: " + globalCounter); // Debug tool
+  if (globalCounter > real) {
+    println("New Highest Score: " + globalCounter); // Debug tool
     
     columnTable.removeRow(0);  // Delete current first row
       
